@@ -1,18 +1,23 @@
 from handlers import AbstractHandler
 
-from models import Configo, Status
+from models import Configo, Counselor
 from google.appengine.api import users
 
 import logging
 import settings
 
 class Support(AbstractHandler):
-    def get(self):
-        status = self.request.get('status')
+    def get(self):        
+        counselor = Counselor.get_or_insert(str(users.get_current_user().user_id()))
+        if not counselor.name:
+            counselor.name = users.get_current_user().nickname()
+            counselor.put()
 
+        logging.info(str(counselor.key().id()))
         template_vars = {
             'app_name': settings.APP_NAME,
-            'logout_url': users.create_logout_url('/'),
+            'counselor': counselor,
+            'logout_url': '/logout',
             'where': 'Support'
         }
 

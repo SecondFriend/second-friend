@@ -1,90 +1,149 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block profile_container %}
 <div class="row">
   <div class="span8">
-  
+    <a href="/logout" class="btn btn-small pull-right">
+	    <i class="icon-off"></i> Logout
+	  </a>
+    <div id="profile">
+      <div class="avatar"><img src="counselor/avatar?key={{ counselor.key().name() }}" width="90" /></div>
+      <span class="name">{{ counselor.name }}</span> <a id="profile-edit" href="#"/>[ Edit ]</a>
+
+      <div class="expertises">
+        {% for e in counselor.expertises %}
+        <div class="expertise"><i class="icon-tag"></i>&nbsp; {{ e }}</div>  
+        {% endfor %}
+      </div>
+    </div>
+    <iframe src="/counselor/edit" id="counselor-edit" style="float: left; width: 80%;"></iframe>
   </div>
 </div>
+{% endblock %}
+{% block content %}
 <div class="row">
   <div class="span8">
     <table cellpadding="0"><tr>
     <td valign="top"><div id="kids">
       <h4>Kids (<span id="kids-count">0</span>)</h4>
-      <br />
-      <!--<div class="kid off" id="jan">
-        Jan <i class="icon-comment icon"></i>
-      </div>
-    
-      <div class="kid off" id="florian">
-        Florian <i class="icon-comment icon"></i>
-      </div>-->
+      <br /><br />
+      <!-- kids list -->
   
     </div></td>
     
     <td width="100%"><div id="chat-windows">
-      <!--<div class="chat-window" id="chat-window-jan">
-        <div class="chat">
-          <div class="chat-name">Jan</div>
-          <div class="chat-msg">Hello</div>
-        </div>
-      </div>
-      <div class="chat-window" id="chat-window-florian">
-        <div class="chat">
-          <div class="chat-name">Florian</div>
-          <div class="chat-msg">Hello</div>
-        </div>
-      </div>-->
+      <!-- chat windows -->
     </div></td>
     </tr></table>
-    <h4>Chat as Jan</h4>  
-    <div>
-        <input type="text" id="jan-publish-text" name="publish" value=""/>
-        <input type="button" id="jan-publish-btn" value="publish" />
-    </div>
-    <br />
-    <h4>Chat as Florian</h4>
-    <div>
-        <input type="text" id="florian-publish-text" name="publish" value=""/>
-        <input type="button" id="florian-publish-btn" value="publish" />
+    
+    <!-- reference .chat-window-inner -->
+    <div class="chat-window-inner">
+      <div class="chat-header">
+        <a href="#" class="end-chat-btn btn btn-small pull-right" style="margin-right: 0px;font-size: 82%;">End Chat</a>
+        <a href="#" class="btn btn-small pull-right" style="margin-right: 4px;font-size: 82%;">Transfer</a>
+        <a href="#" class="btn btn-small pull-right" style="margin-right: 4px;font-size: 82%;">Profile</a>
+        <div style="clear: both;"></div>
+      </div>
+      <div class="chat-area"></div>
+      <div class="chat-box">
+        <input type="text" class="chat-box-text" style="width: 78%;" />
+        <input type="button" class="btn btn-primary chat-box-button" value="Submit" style="float: right; width: 18%" />
+      </div>
     </div>
   </div>
 </div>
 <style type="text/css">
+  #container .main {
+    padding: 0 !important;
+  }
+  
+  iframe {
+    border: 0;
+    margin: 0;
+    display: none;
+    overflow: hidden;
+    background-color: transparent;
+    height: 78px;
+  }
+  
+  #profile .avatar {
+    width: 60px;
+    height: 60px;
+    border: 1px solid #ddd;
+    margin-right: 10px;
+    float: left;
+    overflow: hidden;
+    box-shadow: 1px 1px 4px #333;
+  }
+  
+  #profile-edit {
+    color: #f8f8f8;
+    text-shadow: 1px 1px 2px #000;
+  }
+  
+  #profile .name {
+    font-size: 140%;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    color: #fff;
+    text-shadow: 0 1px 2px #000;
+  }
+  
+  #profile .expertises {
+    margin-top: 6px;
+  }
+  #profile .expertise {
+    display: inline-block;
+    padding: 2px 6px;
+    background-color: #f6f6f6;
+    border-radius: 3px;
+    margin-right: 6px;
+    font-size: 84%;
+    box-shadow: 1px 2px 4px #333;
+  }
+  
   #kids {
     width: 140px;
   }
   
-  #chat-windows {
-    border: 4px solid #eee;
-    width: 100%;
-    height: 300px;
-  }
-  
   .kid {
-    border: 1px solid #eee;
-    border-right: 0;
     width: auto;
     padding: 8px;
-    margin-bottom: 6px;
+    margin-bottom: 10px;
     cursor: pointer;
+    line-height: 22px;
+    height: 19px;
+    overflow: hidden;
+    
+    border-radius: 3px 0 0 3px;
+    border: 0;
+    box-shadow: 1px 1px 6px #333;
+    background-color: #eee;
   }
   
+  .kid.off {
+    background-color: #f6f6f6;
+    color: #888;
+  }
   .kid.on {
-    background-color: #eee;
+    background-color: #F0ECDD;
   }
   
   .kid .icon {
     float: right;
-    display: none;
-  }
-  
-  .kid .icon.on {
     display: block;
   }
   
-  .kid.off .icon {
+  .kid .icon.off {
     display: none;
+  }
+  
+  #chat-windows {
+    border: 8px solid #F0ECDD;
+    width: 97%;
+    height: 450px;
+    border-radius: 6px;
+    background-color: #eee;
   }
   
   .chat-window {
@@ -93,22 +152,76 @@
     left: 0;
     width: 100%;
     height: 100%;
-    padding: 6px;
+    padding: 0;
     display: none;
+    background-color: #fff;
   }
   
   .chat-window.on {
     display: block;
   }
   
+  .chat-header {
+    background-color: #F0ECDD;
+    padding: 6px;
+    height: 30px;
+    box-shadow: 0px 4px 4px #888;
+  }
+  
+  .chat-area .chat:nth-child(odd) {
+    padding: 4px;
+    background: #f0f0f0;
+  }
+  
+  .chat-area .chat:nth-child(even) {
+    padding: 4px;
+    background: #f6f6f6;
+  }
+  
   .chat-name {
     display: inline-block;
-    width: 50px;
+    width: 74px;
     font-style: italic;
+    font-size: 12px;
+    height: 15px;
+    line-height: 15px;
+    overflow: hidden;
   }
   
   .chat-msg {
     display: inline-block;
+  }
+  
+  .chat-window-inner {
+    height: 100%;
+    display: none;
+  }
+  
+  #chat-windows .chat-window-inner {
+    display: block;
+  }
+  
+  .chat-window-inner .chat-area {
+    width: auto;
+    height: 349px;
+    padding: 8px;
+    overflow: scroll;
+  }
+  
+  .chat-window-inner .chat-box {
+    width: auto;
+    height: 32px;
+    padding: 8px;
+    background: #F0ECDD;
+    box-shadow: 0px -2px 4px #888;
+  }
+  
+  h4 {
+    color: #fff;
+    text-shadow: 2px 2px 2px #000;
+    padding-top: 18px;
+    padding-right: 20px;
+    text-align: right;
   }
 </style>
 {% endblock %}
@@ -116,49 +229,104 @@
 {% block extra_body %}
 <div pub-key="pub-91077960-1dd7-4875-83c4-c8fd5c634bee" sub-key="sub-786b929e-bab1-11e1-b880-a3fb466a40d5" ssl="off" origin="pubsub.pubnub.com" id="pubnub"></div>
 <script src="http://cdn.pubnub.com/pubnub-3.1.min.js"></script>
-<script>
+<script type="text/javascript">
 $(document).ready(function() {
   function AddKid(uuid, channel) {
-    $('#kids').append('<div class="kid off" id="kid-'+ uuid +'" uuid="'+ uuid +'">'+ uuid +' <i class="icon-comment icon"></i></div>');
-    $('#chat-windows').append('<div class="chat-window" id="chat-window-'+ uuid +'" />');
+    // check the channel is not on the screen
+    if($('#kid-'+ uuid).length) return true;
+    
+    $('#kids').append('<div class="kid off" id="kid-'+ uuid +'" uuid="'+ uuid +'">'+ uuid +' <i class="icon-comment icon off"></i></div>');
+    $('#chat-windows').append('<div class="chat-window" id="chat-window-'+ uuid +'" uuid="'+ uuid +'" />');
+    
+    $('.chat-window-inner:last').clone().appendTo('#chat-window-'+ uuid);
     $('#kids-count').text(parseInt($('#kids-count').text()) + 1);
     
-    // LISTEN FOR MESSAGES
+    // LISTEN FOR MESSAGES from kid
     PUBNUB.subscribe({
-        channel: 'kid-'+ uuid,
-        restore: true,
+      //channel: 'kid-'+ uuid,
+      channel: uuid,
+      restore: true,
 
-        callback: function(message) { // RECEIVED A MESSAGE.
-            console.log(message);
-            $('#chat-window-'+ uuid).prepend('<div class="chat"><div class="chat-name">'+ uuid +'</div><div class="chat-msg">'+ message.text +'</div></div>');
-            $('#kid-'+ uuid +' .icon').addClass('on');
-        },
+      callback: function(message) {
+        console.log(message)
+        if(message.type == 'text') {
+          if(!message.from) message.from = uuid;
+          
+          $('#chat-window-'+ uuid +' .chat-area').append('<div class="chat"><div class="chat-name kid-name">'+ message.sender +'</div><div class="chat-msg">'+ message.payload +'</div></div>');
 
-        disconnect: function() { // LOST CONNECTION.
-            //alert("Connection Lost. Will auto-reconnect when Online.")
-        },
-
-        reconnect: function() { // CONNECTION RESTORED.
-            //alert("And we're Back!");
-        },
-
-        /*connect: function() { // CONNECTION ESTABLISHED.
-            PUBNUB.publish({ // SEND A MESSAGE.
-                channel: "hello_world",
-                message: "Hi from PubNub."
-            })
-        }*/
+          $('.kid.off#kid-'+ uuid +' .icon').removeClass('off').addClass('on');
+          $('.kid.on#kid-'+ uuid +' .icon').fadeIn('fast').delay(1400).fadeOut('slow', function() {
+            $(this).addClass('off').removeClass('on');
+          });
+        } else if(message.type == 'system') {
+          if(message.payload.action == 'changenick') {
+            console.log('changenick');
+            // change the name within the .chat-area
+            $('#chat-window-'+ channel +' .chat-name.kid-name').text(message.payload.nickname);
+            
+            // change the name for .kid
+            $('#kid-'+ channel).text(message.payload.nickname); 
+          }
+        } // end else if   
+      },
     });
   } // end AddKid
   
+  function RemoveKid(channel) {
+    // unsubscribe
+    PUBNUB.unsubscribe({
+      channel: channel,
+    });
+    
+    // also remove the dom
+    $('#kid-'+ channel).remove();
+    $('#chat-window'+ channel).remove();
+    
+    $('#kids-count').text(parseInt($('#kids-count').text()) - 1);
+  } // end RemoveKid
+  
+  function RemoveAllKids() {
+    $('#kids .kid').each(function() {
+      var channel = $(this).attr('uuid');
+      
+      PUBNUB.publish({
+        channel: channel,
+        message: {
+          type: 'status',
+          sender: 'SecondFriend',
+          payload: 'Counselor has left.',
+        }
+      });
+      
+      PUBNUB.unsubscribe({
+        channel: channel,
+      });
+    });
+    
+    $('#kids .kid').remove();
+    $('#chat-windows .chat-window').remove();
+    
+    $('#kids-count').text(parseInt(0));
+  }
+  
   // dynamically add chatters/kids
-  AddKid('Jan', 'channel');
-  AddKid('Florian', 'channel');
-  AddKid('Soe', 'channel');
+  {% for channel in counselor.channels %}
+    AddKid('{{ channel }}', '{{ channel }}');
+  {% endfor %}
   
   // activate the first kid
   $('.chat-window:first').addClass('on').removeClass('off');
   $('.kid:first').addClass('on').removeClass('off');
+  
+  // end-chat-btn
+  $('#chat-windows').delegate('.end-chat-btn', 'click', function(e) {
+    var uuid = $(this).parents('.chat-window').attr('uuid');
+    
+    $.ajax({
+       url: 'https://super-support.appspot.com/route/remove?channel='+ uuid,
+    });
+    e.preventDefault();
+  });
   
   // listener for .kid
   $('#kids').delegate('.kid', 'click', function() {
@@ -167,44 +335,61 @@ $(document).ready(function() {
     
     $('.chat-window.on').removeClass('on');
     $('#chat-window-'+ $(this).attr('uuid')).removeClass('off').addClass('on');
-    
-    $(this).children('icon').removeClass('on');
+    $(this).children('.icon').removeClass('on').addClass('off');
   });
   
-  // listen to commands for counsellor screen
+  // listen to commands for counselor screen
+  var counselor_id = '{{ counselor.key().name() }}';
   PUBNUB.subscribe({
-    channel: 'counselor-12345',
+    channel: 'counselor-'+ counselor_id,
     restore: false,
 
     callback: function(message) { // received a command
       console.log(message);
-      AddKid(message.uuid, message.channel);
+      if(message.action == 'create') {
+        AddKid(message.uuid, message.channel);
+      } else if(message.action == 'remove') {
+        RemoveKid(message.channel);
+      } else if(message.action == 'purge') {
+        RemoveAllKids();
+      }
     },
   });
   
-  // just for debugging purpose
-  $('#jan-publish-btn').on('click', function() {
-    PUBNUB.publish({ // SEND A MESSAGE.
-      channel : "kid-Jan",
-      message : {
-        text: $('#jan-publish-text').val()
-      }
-    });
-
-    $('#jan-publish-text').val('');
-  });
-    
-  $('#florian-publish-btn').on('click', function() {
-    PUBNUB.publish({ // SEND A MESSAGE.
-      channel : "kid-Florian",
-      message : {
-        text: $('#florian-publish-text').val()
-      }
-    });
-
-    $('#florian-publish-text').val('');
+  // for enter in the chat-box-text
+  $('#chat-windows').delegate('.chat-box-text', 'keypress', function(e) {
+    if(e.keyCode == 13) {
+      var $parent = $(this).parents('.chat-window')
+      $parent.children('.chat-box-button').trigger('click');
+      e.preventDefault();
+    }
   });
   
+  // listen to chat submit button
+  $('#chat-windows').delegate('.chat-box-button', 'click', function(e) {
+    var uuid = $(this).parents('.chat-window').attr('uuid');
+
+    PUBNUB.time(function(time) {
+      PUBNUB.publish({
+        //channel: 'kid-'+ uuid,
+        channel: uuid,
+        message: {
+          type: 'text',
+          sender: '{{ counselor.name }}',
+          payload: $('#chat-window-'+ uuid +' .chat-box-text').val(),
+          timestamp: time
+        }
+      }); //PUBNUB.publish
+      $('#chat-window-'+ uuid +' .chat-box-text').val('');
+    }); // PUBNUB.time
+  });
+  
+  // listen to edit link
+  $('#profile-edit').on('click', function(e) {
+    $('#profile').hide();
+    $('iframe').show();
+    e.preventDefault();
+  }); 
 });
 </script>
 {% endblock %}

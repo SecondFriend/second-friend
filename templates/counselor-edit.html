@@ -1,0 +1,80 @@
+<html>
+<head>
+  <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
+  <style type="text/css">
+    *, body, html {
+      margin: 0;
+      padding: 0;
+      height: auto;
+      background-color: transparent;
+    }
+    #profile-form .avatar {
+      width: 60px;
+      height: 40px;
+      border: 1px solid #ddd;
+      margin-right: 10px;
+      padding-top: 20px;
+      float: left;
+      overflow: hidden;
+    }
+
+    #profile-form {
+      display: block;
+    }
+    
+    #profile-form .expertises {
+      margin-right: 80px;
+    }
+
+    #profile-form .avatar input {
+      width: 90px;
+      margin-left: 4px;
+    }
+    #profile-form .name {
+      font-size: 16px;
+      line-height: 16px;
+      height: 26px;
+      margin-right: 10px;
+    }
+    
+    #profile-form input[type=text] {
+      background-color: #f6f6f6;
+    }
+    
+    #profile-form input[type=button], #profile-form input[type=submit]  {
+      margin-top: 1px;
+    }
+    
+    #profile-form .expertise {
+      display: inline-block;
+      padding: 2px 6px;
+      margin-right: 4px;
+      color: #fff;
+      font-size: 86%;
+    }
+    .alert {
+      font-size: 86%;
+      padding: 4px;
+      margin: 1px;
+    }
+  </style>
+</head>
+<body>
+  <form action="/counselor/update" id="profile-form" enctype="multipart/form-data" method="post">
+  <div class="avatar" style="background-image: url('/counselor/avatar?key={{ counselor.key.name }}') no-repeat #eee; background-size: 90px auto;return false;"><input type="file" name="avatar" /></div>
+  <input type="text" class="name" name="name" value="{{ counselor.name }}" />
+  <input type="submit" class="btn btn-small" value="Update" id="profile-edit-save" />
+  <input type="button" class="btn btn-small" value="Cancel" id="profile-edit-cancel" onclick="javascript:parent.document.getElementById('profile').style.display = 'block';parent.document.getElementById('counselor-edit').style.display = 'none';return false;"/>
+  <div class="expertises">
+    {% for e in _expertises %}
+    <div class="expertise"><input type="checkbox" name="expertises" value="{{ e }}"
+      {% if e in counselor.expertises %}checked=checked{% endif %}
+      />&nbsp; {{ e }}
+      </div>
+    {% endfor %}
+  </div>
+  <div style="clear: both;"></div>
+  {% if saved %}<br /><div class="alert">Profile has been updated...</div>{% endif %}
+  </form>
+</body>
+</html>

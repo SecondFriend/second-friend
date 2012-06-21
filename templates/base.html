@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8"/>
-    <title>GroupIn</title>
+    <title>SuperSupport</title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -16,9 +16,10 @@
     </head>
 
   <body>
-
-    <div class="container">
-    <div class="row"><div class="span8 offset2 main">
+    <div id="profile-container" class="span8" style="margin: 0 auto !important; padding: 10px 20px; background: url('static/img/header-background.png') repeat-x #1e4768;">
+      {% block profile_container %}{% endblock %}
+    </div>
+    <div id="container" class="span8" style="margin: 0 auto; padding: 10px 20px; background: url('static/img/app-background.png') repeat;">
 
       <header class="header">
         {% include "header.html" %}
@@ -29,7 +30,6 @@
         {% include "footer.html" %}
       </footer>
 
-    </div></div>
     </div><!-- /container -->
     <br />
 

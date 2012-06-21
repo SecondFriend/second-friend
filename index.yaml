@@ -10,8 +10,7 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
-- kind: Status
+- kind: Counselor
   properties:
+  - name: channels
   - name: status
-  - name: created
-    direction: desc
