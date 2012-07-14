@@ -4,6 +4,7 @@ from google.appengine.api import memcache
 import logging
 
 class Counselor(db.Model):
+    """counselor model"""
     userid = db.StringProperty()
     name = db.StringProperty()
     

@@ -8,7 +8,7 @@ from pubnub import Pubnub
 import logging
 import settings
 
-## pubnub
+### pubnub instance
 pubnub = Pubnub(
     'pub-91077960-1dd7-4875-83c4-c8fd5c634bee', 
     'sub-786b929e-bab1-11e1-b880-a3fb466a40d5',
@@ -87,6 +87,7 @@ class Assign(AbstractHandler):
         
         counselor = counselors[0]
         
+        # assign to counselor with the least channel
         for c in counselors:
             if(len(c.channels) < len(counselor.channels)):
                 counselor = c
@@ -143,9 +144,9 @@ class Assign(AbstractHandler):
             }
         })
         
-        #resp = {}
         logging.info(counselor.name)
         logging.info(counselor.key().name())
+
         self.response.headers['Access-Control-Allow-Origin'] = '*'
         self.response.set_status(200)
         self.response.out.write('assigned')
