@@ -46,7 +46,7 @@
       </div>
       <div class="chat-area"></div>
       <div class="chat-box">
-        <input type="text" class="chat-box-text" style="width: 78%;" />
+        <input type="text" class="chat-box-text" style="width: 78%;" placeholder="Your chat message here..." />
         <input type="button" class="btn btn-primary chat-box-button" value="Submit" style="float: right; width: 18%" />
       </div>
     </div>
@@ -360,7 +360,7 @@ $(document).ready(function() {
   $('#chat-windows').delegate('.chat-box-text', 'keypress', function(e) {
     if(e.keyCode == 13) {
       var $parent = $(this).parents('.chat-window')
-      $parent.children('.chat-box-button').trigger('click');
+      $parent.find('.chat-box-button').focus().click();
       e.preventDefault();
     }
   });
@@ -368,6 +368,8 @@ $(document).ready(function() {
   // listen to chat submit button
   $('#chat-windows').delegate('.chat-box-button', 'click', function(e) {
     var uuid = $(this).parents('.chat-window').attr('uuid');
+
+    if(!$('#chat-window-'+ uuid +' .chat-box-text').val().length) return;
 
     PUBNUB.time(function(time) {
       PUBNUB.publish({
