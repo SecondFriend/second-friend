@@ -323,7 +323,7 @@ $(document).ready(function() {
     var uuid = $(this).parents('.chat-window').attr('uuid');
     
     $.ajax({
-       url: 'https://super-support.appspot.com/route/remove?channel='+ uuid,
+       url: 'https://second-friend.appspot.com/route/remove?channel='+ uuid,
     });
     e.preventDefault();
   });
@@ -359,7 +359,7 @@ $(document).ready(function() {
   // for enter in the chat-box-text
   $('#chat-windows').delegate('.chat-box-text', 'keypress', function(e) {
     if(e.keyCode == 13) {
-      var $parent = $(this).parents('.chat-window')
+      var $parent = $(this).parents('.chat-window');
       $parent.find('.chat-box-button').focus().click();
       e.preventDefault();
     }
