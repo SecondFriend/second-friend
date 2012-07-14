@@ -3,6 +3,8 @@ from handlers import AbstractHandler
 from models import Counselor
 from google.appengine.api import users
 
+import settings
+
 class Index(AbstractHandler):
     def get(self):
         
