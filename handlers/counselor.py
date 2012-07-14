@@ -48,4 +48,4 @@ class Avatar(AbstractHandler):
             self.response.out.write(counselor.avatar)
         else:
             self.response.headers['Content-Type'] = "image/jpg"
-            self.response.out.write(urlfetch.Fetch('https://super-support.appspot.com/static/img/avatar.jpg').content)
+            self.response.out.write(urlfetch.Fetch('https://second-friend.appspot.com/static/img/avatar.jpg').content)

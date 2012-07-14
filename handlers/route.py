@@ -41,7 +41,7 @@ class Queue(AbstractHandler):
                     'timestamp': '',
                     'payload': {
                         'action': 'counselor',
-                        'avatar': 'https://super-support.appspot.com/counselor/avatar?key='+ counselor.key().name(),
+                        'avatar': 'https://second-friend.appspot.com/counselor/avatar?key='+ counselor.key().name(),
                         'name': counselor.name,
                         'id': counselor.key().name(),
                     }
@@ -126,7 +126,7 @@ class Assign(AbstractHandler):
                 'timestamp': '',
                 'payload': {
                     'action': 'counselor',
-                    'avatar': 'https://super-support.appspot.com/counselor/avatar?key='+ counselor.key().name(),
+                    'avatar': 'https://second-friend.appspot.com/counselor/avatar?key='+ counselor.key().name(),
                     'name': counselor.name,
                     'id': counselor.key().name(),
                 }
