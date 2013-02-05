@@ -180,7 +180,7 @@
   
   .chat-name {
     display: inline-block;
-    width: 74px;
+    width: 84px;
     font-style: italic;
     font-size: 12px;
     height: 15px;
@@ -228,7 +228,10 @@
 
 {% block extra_body %}
 <div pub-key="pub-91077960-1dd7-4875-83c4-c8fd5c634bee" sub-key="sub-786b929e-bab1-11e1-b880-a3fb466a40d5" ssl="off" origin="pubsub.pubnub.com" id="pubnub"></div>
+<script src="/static/js/pubnub-3.1.min.js"></script>
+<!--
 <script src="http://cdn.pubnub.com/pubnub-3.1.min.js"></script>
+-->
 <script type="text/javascript">
 $(document).ready(function() {
   function AddKid(uuid, channel) {
@@ -316,6 +319,7 @@ $(document).ready(function() {
   
   // activate the first kid
   $('.chat-window:first').addClass('on').removeClass('off');
+  $('.chat-window:first .chat-box-text').focus();
   $('.kid:first').addClass('on').removeClass('off');
   
   // end-chat-btn
@@ -335,6 +339,7 @@ $(document).ready(function() {
     
     $('.chat-window.on').removeClass('on');
     $('#chat-window-'+ $(this).attr('uuid')).removeClass('off').addClass('on');
+    $('#chat-window-'+ $(this).attr('uuid') +' .chat-box-text').focus();
     $(this).children('.icon').removeClass('on').addClass('off');
   });
   
@@ -369,7 +374,10 @@ $(document).ready(function() {
   $('#chat-windows').delegate('.chat-box-button', 'click', function(e) {
     var uuid = $(this).parents('.chat-window').attr('uuid');
 
-    if(!$('#chat-window-'+ uuid +' .chat-box-text').val().length) return;
+    if(!$('#chat-window-'+ uuid +' .chat-box-text').val().length) {
+      $('#chat-window-'+ uuid +' .chat-box-text').focus();
+      return;
+    }
 
     PUBNUB.time(function(time) {
       PUBNUB.publish({
@@ -383,6 +391,7 @@ $(document).ready(function() {
         }
       }); //PUBNUB.publish
       $('#chat-window-'+ uuid +' .chat-box-text').val('');
+      $('#chat-window-'+ uuid +' .chat-box-text').focus();
     }); // PUBNUB.time
   });
   
